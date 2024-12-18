@@ -1,0 +1,130 @@
+body {
+    font-family: "Roboto";
+}
+
+.container {
+    height: 100vw;
+}
+
+/* header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: green;
+    color: white;
+    width: 100%;
+}
+
+.header-content {
+    flex: 1;
+    text-align: center;
+}
+
+/* main content */
+.content {
+    display: flex;
+    height: 100%;
+}
+
+.content-main {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.sidebar {
+    width: 10%;
+    background-color: black;
+    color: white
+}
+
+/* checkbox */
+.toggleCheckbox {
+    display: none;
+}
+
+.toggleContainer {
+    position: relative;
+    display: inline-flex;
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+    border: 3px solid #343434;
+    border-radius: 20px;
+    background: #343434;
+    font-weight: bold;
+    color: #343434;
+    cursor: pointer;
+}
+
+.toggleContainer::before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0%;
+    border-radius:20px;
+    background: white;
+    transition: all 0.3s;
+}
+
+.toggleContainer div {
+    padding: 6px;
+    text-align: center;
+    z-index: 1;
+}
+
+.toggleCheckbox:checked + .toggleContainer::before {
+    left: 50%;
+}
+
+.toggleCheckbox:checked + .toggleContainer div:first-child{
+    color: white;
+    transition: color 0.3s;
+}
+
+.toggleCheckbox:checked + .toggleContainer div:last-child{
+    color: #343434;
+    transition: color 0.3s;
+}
+
+.toggleCheckbox + .toggleContainer div:first-child{
+    color: #343434;
+    transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:last-child{
+    color: white;
+    transition: color 0.3s;
+}
+
+#uploadPDF {
+    width: 1000px;
+    height: 500px;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 200px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+}
+
+#uploadText {
+    width: 1000px;
+    height: 500px;
+    margin: 20px auto;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+}
+
+#logo {
+    height: 75px;
+}
+
+.content-forms {
+    width: 60%;
+}
