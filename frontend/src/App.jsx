@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from "./components/Header";
 import ToggleButton from "./components/ToggleButton";
 import Sidebar from "./components/Sidebar";
-import Form from "./components/Form";
+import FileUploader from "./components/FileUploader.tsx";
 
 export default function App() {
   const [data, setData] = useState([{}])
@@ -30,7 +30,7 @@ export default function App() {
             <Sidebar />
             <div className="content-main">
                 <ToggleButton handleChange={handleChange}/>
-                <Form isPDF={isPDF}/>
+                <FileUploader isPDF={isPDF}/>
             </div>
         </div>
     </div>
