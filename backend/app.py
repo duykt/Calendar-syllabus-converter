@@ -6,10 +6,16 @@ import pdfplumber
 import re
 from datetime import datetime as dt
 from datetime import timedelta
-from flask import Flask
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from openai import OpenAI
 
 app = Flask(__name__)
+CORS(app)
+
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def main():
 
@@ -85,10 +91,24 @@ def main():
     calendar_to_excel(sorted_cal)
 
 
-# Members API route
-@app.route("/members")
-def members():
-    return {"members": ["Member 1", "Member 2", "Member3"]} 
+# File upload API route
+@app.route('/files', methods=['POST'])
+def upload_files():
+    if 'files' not in request.files:
+        return jsonify({"error": "No files part in the request"}), 400
+
+    files = request.files.getlist('files')
+    uploaded_files = []
+
+    for file in files:
+        if file.filename == '':
+            return jsonify({"error": "One or more files have no name"}), 400
+        
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(file_path)
+        uploaded_files.append(file.filename)
+
+    return jsonify({"message": "Files uploaded successfully", "files": uploaded_files}), 200
 
 
 # export calendar to excel file

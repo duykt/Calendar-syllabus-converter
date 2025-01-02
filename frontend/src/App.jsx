@@ -1,23 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from "./components/Header";
 import ToggleButton from "./components/ToggleButton";
 import Sidebar from "./components/Sidebar";
 import FileUploader from "./components/FileUploader.tsx";
 
 export default function App() {
-  const [data, setData] = useState([{}])
   const [isPDF, setIsPDF] = useState(true);
-
-  useEffect(() => {
-      fetch("/members").then(
-          res => res.json()
-      ).then(
-          data => {
-              setData(data)
-              console.log(data)
-          }
-      )
-  }, [])
 
   function handleChange() {
     setIsPDF(!isPDF);
