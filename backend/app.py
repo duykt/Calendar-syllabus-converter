@@ -34,15 +34,10 @@ def upload_files():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
         uploaded_files.append(file.filename)
-    
-    try:
-        main()
-    except Exception as e:
-        print("ERROOR", e)
 
     return jsonify({"message": "Files uploaded successfully", "files": uploaded_files}), 200
 
-
+@app.route('/generate', methods=["POST"])
 def main():
     calendar = collections.defaultdict(dict)
     path, _, files = list(os.walk(os.path.join("syllabus")))[0]
@@ -114,7 +109,7 @@ def main():
     sorted_cal = collections.OrderedDict(sorted(calendar.items(), key=lambda x: dt.strptime(x[0], "%m/%d")))
     
     calendar_to_excel(sorted_cal)
-
+    return jsonify({"message": "File generated successfully"}), 200
 
 # export calendar to excel file
 def calendar_to_excel(cal):

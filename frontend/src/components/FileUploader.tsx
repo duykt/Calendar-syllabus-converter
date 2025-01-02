@@ -20,6 +20,10 @@ export default function FileUploader(props) {
             },
         })
     };
+
+    const handleFileGeneration = () => {
+        axios.post('http://127.0.0.1:5000/generate')
+    }
     
     return (
         <div className="content-forms">
@@ -48,6 +52,13 @@ export default function FileUploader(props) {
                     >Upload
                 </button>
             }
+
+            <button
+                className='file-generation-button'
+                onClick={handleFileGeneration}
+            >
+                Generate File
+            </button>
         </div>
     )
 }
