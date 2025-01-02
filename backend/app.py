@@ -13,12 +13,37 @@ from openai import OpenAI
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = './syllabus'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def main():
+# File upload API route
+@app.route('/files', methods=['POST'])
+def upload_files():
+    print("files received")
+    if 'files' not in request.files:
+        return jsonify({"error": "No files part in the request"}), 400
 
+    files = request.files.getlist('files')
+    uploaded_files = []
+
+    for file in files:
+        if file.filename == '':
+            return jsonify({"error": "One or more files have no name"}), 400
+        
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(file_path)
+        uploaded_files.append(file.filename)
+    
+    try:
+        main()
+    except Exception as e:
+        print("ERROOR", e)
+
+    return jsonify({"message": "Files uploaded successfully", "files": uploaded_files}), 200
+
+
+def main():
     calendar = collections.defaultdict(dict)
     path, _, files = list(os.walk(os.path.join("syllabus")))[0]
     
@@ -91,26 +116,6 @@ def main():
     calendar_to_excel(sorted_cal)
 
 
-# File upload API route
-@app.route('/files', methods=['POST'])
-def upload_files():
-    if 'files' not in request.files:
-        return jsonify({"error": "No files part in the request"}), 400
-
-    files = request.files.getlist('files')
-    uploaded_files = []
-
-    for file in files:
-        if file.filename == '':
-            return jsonify({"error": "One or more files have no name"}), 400
-        
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(file_path)
-        uploaded_files.append(file.filename)
-
-    return jsonify({"message": "Files uploaded successfully", "files": uploaded_files}), 200
-
-
 # export calendar to excel file
 def calendar_to_excel(cal):
     # convert calendar to dataframe, use keys as index  
@@ -170,8 +175,6 @@ def get_dates(table) -> list:
 
                 content = ' '.join(content.split("\n"))
                 calendar.append((start_date.strftime("%m/%d"), content.strip()))
-    # for i in calendar:
-    #     print(i)
 
     return calendar
 
@@ -215,7 +218,7 @@ def get_class_name(text) -> str:
     return response.choices[0].message.content
 
 if __name__ == '__main__':
-    app.run(debug=True)
     client = OpenAI(api_key="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")
+    app.run(debug=True)
     # main()
     print('done')
