@@ -6,7 +6,7 @@ import pdfplumber
 import re
 from datetime import datetime as dt
 from datetime import timedelta
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from openai import OpenAI
 
@@ -37,7 +37,22 @@ def upload_files():
 
     return jsonify({"message": "Files uploaded successfully", "files": uploaded_files}), 200
 
-@app.route('/generate', methods=["POST"])
+# Text upload API route
+@app.route('/text', methods=["POST"])
+def upload_text():
+    data = request.json
+    title = data.get('title', '')
+    text = data.get('text', '')
+
+    # directory = "./syllabus"
+    # file_path = os.path.join(directory, f'{file_path} Syllabus.txt')
+    with open(os.path.join("./syllabus", f'{title} Syllabus.txt'), "w") as f:
+        f.write(text)
+
+    return jsonify({"message": "Text received", "title": title, "text": text}), 200
+
+# API route for generating excel file
+@app.route('/download', methods=["GET"])
 def main():
     calendar = collections.defaultdict(dict)
     path, _, files = list(os.walk(os.path.join("syllabus")))[0]
@@ -107,9 +122,10 @@ def main():
     
     # sort calendar by date
     sorted_cal = collections.OrderedDict(sorted(calendar.items(), key=lambda x: dt.strptime(x[0], "%m/%d")))
-    
     calendar_to_excel(sorted_cal)
-    return jsonify({"message": "File generated successfully"}), 200
+    
+    # send file to user
+    return send_file(os.path.join('./output', 'output.xlsx'), as_attachment=True)
 
 # export calendar to excel file
 def calendar_to_excel(cal):
