@@ -20,16 +20,18 @@ export default function FileUploader(props) {
 
     const handleFileUpload = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (const file of files) {
-            formData.append("files", file);
+        if (files.length !== 0) {
+            const formData = new FormData();
+            for (const file of files) {
+                formData.append("files", file);
+            }
+            axios.post('http://127.0.0.1:5000/files', formData, {
+                headers: {
+                    'Content-Type': "multipart/form-data",
+                },
+            })
+            updateFiles()
         }
-        axios.post('http://127.0.0.1:5000/files', formData, {
-            headers: {
-                'Content-Type': "multipart/form-data",
-            },
-        })
-        updateFiles()
     };
 
     const handleTextUpload = () => {
@@ -47,9 +49,13 @@ export default function FileUploader(props) {
     }
 
     const handleFileDownload = async () => {
+        if (files.length === 0) {
+            return
+        }
+
         try {
             const response = await axios.get('http://127.0.0.1:5000/download', {
-              responseType: 'blob', // Important for handling binary data
+              responseType: 'blob', 
             });
       
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -65,8 +71,14 @@ export default function FileUploader(props) {
           } catch (error) {
             console.error('Error downloading the file:', error);
           }
-        };      
-    
+        };
+
+    const clearFiles = () => {
+        axios.post('http://127.0.0.1:5000/clear-folder')
+        updateFiles()
+    }
+   
+        
     return (
         <div className="content-forms">
             {props.isPDF ? (
@@ -97,14 +109,12 @@ export default function FileUploader(props) {
                     />
                 </div>
             )}
-
-            {files &&
-                <button 
-                    className="upload-button"
-                    onClick={props.isPDF ? handleFileUpload : handleTextUpload}
-                    >Upload
-                </button>
-            }
+            
+            <button 
+                className="upload-button"
+                onClick={props.isPDF ? handleFileUpload : handleTextUpload}
+                >Upload
+            </button>
 
             <button
                 className='file-download-button'
@@ -112,6 +122,14 @@ export default function FileUploader(props) {
             >
                 Generate File
             </button>
+
+            <button
+                className='clear-files-button'
+                onClick={clearFiles}
+            >
+                Clear
+            </button>
+
         </div>
     )
 }

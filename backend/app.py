@@ -51,6 +51,7 @@ def upload_text():
 
     return jsonify({"message": "Text received", "title": title, "text": text}), 200
 
+# API route for sending file information to frontend
 @app.route('/return-files', methods=["GET"])
 def return_files():
     file_path = './syllabus'
@@ -64,6 +65,20 @@ def return_files():
         })
 
     return jsonify(files_list)
+
+# API route for clearing syllabus folder
+@app.route('/clear-folder', methods=["POST"])
+def clear_folder():
+    folder = './syllabus'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print(f"Error clearing folder: {e}")
+    
+    return jsonify({"message": "Folder Cleared"}), 200
 
 # API route for generating excel file
 @app.route('/download', methods=["GET"])

@@ -24,6 +24,11 @@ body {
     text-align: center;
 }
 
+#logo {
+    height: 75px;
+    
+}
+
 /* main content */
 .content {
     display: flex;
@@ -55,7 +60,9 @@ body {
     padding: 0%;
 }
 
-
+.content-forms {
+    width: 60%;
+}
 
 #uploadPDF {
     width: 1000px;
@@ -77,23 +84,16 @@ body {
     width: 500px;
     height: 25px;
     font-size: 20px;
-}
-
-.content {
-    display: flex;
-    height: 100%;
-}
-
-#logo {
-    height: 75px;
-}
-
-.content-forms {
-    width: 60%;
+    margin-top: 10px;
 }
 
 textarea {
     resize: none;
+}
+
+button {
+    cursor: pointer;
+    margin: 0px 7px 0px 0px;
 }
 
 /* checkbox */
