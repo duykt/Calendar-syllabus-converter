@@ -29,6 +29,7 @@ export default function FileUploader(props) {
                 'Content-Type': "multipart/form-data",
             },
         })
+        updateFiles()
     };
 
     const handleTextUpload = () => {
@@ -37,6 +38,12 @@ export default function FileUploader(props) {
 
         setTitle('')
         setText('')
+        updateFiles()
+    }
+
+    const updateFiles = async () => {
+        const response = await axios.get('http://127.0.0.1:5000/return-files')
+        props.updateFiles(response.data)
     }
 
     const handleFileDownload = async () => {
@@ -76,7 +83,7 @@ export default function FileUploader(props) {
                     <textarea
                         id="uploadTitle"
                         name='uploadTitle'
-                        placeholder='Enter Title'
+                        placeholder='Class Name'
                         value={title}
                         onChange={handleTitleChange}
                     />

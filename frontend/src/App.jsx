@@ -6,6 +6,7 @@ import FileUploader from "./components/FileUploader.tsx";
 
 export default function App() {
   const [isPDF, setIsPDF] = useState(true);
+  const [files, setFiles] = useState([])
 
   function handleChange() {
     setIsPDF(!isPDF);
@@ -15,12 +16,13 @@ export default function App() {
     <div className="container">
         <Header />
         <div className="content">
-            <Sidebar />
+            <Sidebar files={files}/>
             <div className="content-main">
                 <ToggleButton handleChange={handleChange}/>
-                <FileUploader isPDF={isPDF}/>
+                <FileUploader isPDF={isPDF} updateFiles={setFiles}/>
             </div>
         </div>
     </div>
   )
+  
 }

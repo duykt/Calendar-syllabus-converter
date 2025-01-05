@@ -51,6 +51,20 @@ def upload_text():
 
     return jsonify({"message": "Text received", "title": title, "text": text}), 200
 
+@app.route('/return-files', methods=["GET"])
+def return_files():
+    file_path = './syllabus'
+    files_list = []
+
+    # add all files in syllabus folder to file_list
+    for file_name in os.listdir(file_path):
+        files_list.append({
+            "name": file_name,
+            "type": "pdf" if file_name.endswith("pdf") else "txt"
+        })
+
+    return jsonify(files_list)
+
 # API route for generating excel file
 @app.route('/download', methods=["GET"])
 def main():

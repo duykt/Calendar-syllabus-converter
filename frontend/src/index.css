@@ -1,9 +1,12 @@
 body {
     font-family: "Roboto";
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    height: 100vw;
+    height: 100vh;
+    width: 100%;
 }
 
 /* header */
@@ -38,8 +41,59 @@ body {
 
 .sidebar {
     width: 10%;
+    height: 100vh;
     background-color: black;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    font-size: 1vw;
     color: white
+}
+
+.file-icon {
+    width: 30%  ;
+    padding: 0%;
+}
+
+
+
+#uploadPDF {
+    width: 1000px;
+    height: 500px;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 200px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+}
+
+#uploadText {
+    width: 1000px;
+    height: 500px;
+    margin: 20px auto;
+} 
+
+#uploadTitle {
+    width: 500px;
+    height: 25px;
+    font-size: 20px;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+}
+
+#logo {
+    height: 75px;
+}
+
+.content-forms {
+    width: 60%;
+}
+
+textarea {
+    resize: none;
 }
 
 /* checkbox */
@@ -98,33 +152,4 @@ body {
 .toggleCheckbox + .toggleContainer div:last-child{
     color: white;
     transition: color 0.3s;
-}
-
-#uploadPDF {
-    width: 1000px;
-    height: 500px;
-    margin: 20px auto;
-    text-align: center;
-    line-height: 200px;
-    border: 2px solid #ccc;
-    cursor: pointer;
-}
-
-#uploadText {
-    width: 1000px;
-    height: 500px;
-    margin: 20px auto;
-}
-
-.content {
-    display: flex;
-    height: 100%;
-}
-
-#logo {
-    height: 75px;
-}
-
-.content-forms {
-    width: 60%;
 }
