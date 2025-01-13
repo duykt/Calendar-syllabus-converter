@@ -30,7 +30,7 @@ export default function FileUploader(props) {
                     'Content-Type': "multipart/form-data",
                 },
             })
-            updateFiles()
+            props.updateFiles()
         }
     };
 
@@ -40,7 +40,7 @@ export default function FileUploader(props) {
 
         setTitle('')
         setText('')
-        updateFiles()
+        props.updateFiles()
     }
 
     const updateFiles = async () => {
@@ -49,10 +49,6 @@ export default function FileUploader(props) {
     }
 
     const handleFileDownload = async () => {
-        if (files.length === 0) {
-            return
-        }
-
         try {
             const response = await axios.get('http://127.0.0.1:5000/download', {
               responseType: 'blob', 

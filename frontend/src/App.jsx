@@ -19,7 +19,7 @@ export default function App() {
             <Sidebar files={files}/>
             <div className="content-main">
                 <ToggleButton handleChange={handleChange}/>
-                <FileUploader isPDF={isPDF} updateFiles={setFiles}/>
+                <FileUploader isPDF={isPDF} updateFiles={setFiles} file_data={files}/>
             </div>
         </div>
     </div>

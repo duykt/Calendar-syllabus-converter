@@ -140,8 +140,8 @@ def main():
                 # if text contains date, parse data and add to calendar
                 if contains_due_dates(txt) == "Yes":
                     # get name of class
-                    name = get_class_name(txt)
-
+                    name = tail.split("Syllabus")[0].strip()
+                    
                     response = text_to_dates(txt)
                     data = ast.literal_eval(response)
                         
@@ -245,6 +245,7 @@ def contains_due_dates(text) -> str:
     return response.choices[0].message.content
 
 
+# get name of class
 def get_class_name(text) -> str:
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -258,7 +259,7 @@ def get_class_name(text) -> str:
     return response.choices[0].message.content
 
 if __name__ == '__main__':
-    client = OpenAI(api_key="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")
+    client = OpenAI(api_key="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")
     app.run(debug=True)
     # main()
     print('done')
